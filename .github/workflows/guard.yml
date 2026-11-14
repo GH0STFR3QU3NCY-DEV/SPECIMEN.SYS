@@ -1,0 +1,22 @@
+name: Repository guard
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Identity, trailer and word guard
+        env:
+          GUARD_PRIVATE_SALT: ${{ secrets.GUARD_PRIVATE_SALT }}
+          GUARD_PRIVATE_HASHES: ${{ secrets.GUARD_PRIVATE_HASHES }}
+          GUARD_REQUIRE_PRIVATE: ${{ github.event_name == 'push' && github.actor != 'dependabot[bot]' }}
+        run: python scripts/repo_guard.py
