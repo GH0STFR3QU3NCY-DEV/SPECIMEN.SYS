@@ -1,0 +1,58 @@
+{
+  "dimensions": [
+    1122,
+    1402
+  ],
+  "boundary_contract": "No anatomical changes outside the original biological observation viewport",
+  "boxes": {
+    "host": [
+      99,
+      731,
+      697,
+      953
+    ],
+    "sacs": [
+      277,
+      509,
+      554,
+      665
+    ],
+    "abdomen": [
+      292,
+      372,
+      552,
+      724
+    ],
+    "fingers": [
+      208,
+      297,
+      589,
+      559
+    ],
+    "tail": [
+      268,
+      672,
+      538,
+      780
+    ]
+  },
+  "counts": {
+    "host": 28,
+    "sacs": 28,
+    "abdomen": 24,
+    "fingers": 16,
+    "tail": 24
+  },
+  "resting_pixel_identity": true,
+  "specimen_viewport": [
+    73,
+    282,
+    714,
+    953
+  ],
+  "source": "detailed_static_rgba.png",
+  "display_modes": [
+    "detailed",
+    "classic"
+  ]
+}

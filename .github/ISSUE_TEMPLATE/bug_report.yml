@@ -1,0 +1,34 @@
+name: Bug report
+description: Report a reproducible widget problem
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please remove personal paths, names and private files from screenshots/logs."
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "1.6.0-rc1"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Windows version
+      options: ["Windows 11", "Windows 10", "Other"]
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result

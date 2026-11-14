@@ -1,0 +1,52 @@
+name: Publish SPECIMEN.SYS v1.0.0
+on:
+  push:
+    branches:
+      - release/v1.0.0
+    paths:
+      - .github/workflows/publish-v1.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve already validated Windows build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh release download v1.6.1-rc2 --pattern 'SPECIMEN.SYS-Windows-x64.zip' --pattern 'SHA256SUMS.txt'
+          sha256sum --check SHA256SUMS.txt
+          test -s SPECIMEN.SYS-Windows-x64.zip
+      - name: Publish stable 1.0.0 from protected main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if gh release view v1.0.0 >/dev/null 2>&1; then
+            echo 'v1.0.0 already exists; refusing to overwrite'
+            exit 1
+          fi
+          cat > release-notes.md <<'EOF'
+          # SPECIMEN.SYS v1.0
+
+          The first stable public release of SPECIMEN.SYS, a standalone, offline CRT-inspired Windows desktop biological observation widget.
+
+          **Features**
+          - Detailed and Classic specimen display modes
+          - Layered breathing and facehugger animation with responsive fictional telemetry
+          - CRT scanline and rolling refresh presentation
+          - Transparent desktop widget, compact sizing, and system tray controls
+          - Silent startup splash and borderless About panel
+
+          **Install:** Download `SPECIMEN.SYS-Windows-x64.zip`, extract the entire archive, and run `SPECIMEN.SYS.exe` inside the extracted folder. No installer or network connection is required. This build is unsigned and Windows may show a SmartScreen warning.
+
+          The executable and checksum are the same Windows build previously validated and distributed as release candidate 2. This release does not introduce application code changes.
+
+          Independent, unofficial science-fiction fan project. The telemetry is fictional, not medical.
+          EOF
+          gh release create v1.0.0 SPECIMEN.SYS-Windows-x64.zip SHA256SUMS.txt \
+            --target main --title 'SPECIMEN.SYS v1.0' --notes-file release-notes.md --latest
